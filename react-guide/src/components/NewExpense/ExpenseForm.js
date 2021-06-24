@@ -1,7 +1,7 @@
 import "./ExpenseForm.css";
 
 import {useState} from "react";
-const Expenseform = () => {
+const Expenseform = (props) => {
   const [enteredtitle, setEnteredTitle] = useState("");
   const [enteredamount, setEnteredAmount] = useState("");
   const [entereddate, setEnteredDate] = useState("");
@@ -52,10 +52,11 @@ const Expenseform = () => {
       amount: enteredamount,
       date: new Date(entereddate),
     };
-    console.log(expenseData);
+    // console.log(expenseData);
     setEnteredTitle("");
     setEnteredAmount("");
     setEnteredDate("");
+    props.ExpenseData(expenseData)//We are passing a pointer at expensedatahandler to ExpenseData
   };
 
   return (
