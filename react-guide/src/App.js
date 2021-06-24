@@ -1,6 +1,6 @@
 import Expenses from "./components/Expenses/Expenses";
 import React from "react";
-
+import NewExpense from "./components/NewExpense/NewExpense";
 const App = () => {
   //Without JSX
   // return React.createElement(
@@ -13,7 +13,7 @@ const App = () => {
   //With JSX
   return (
     <div>
-      <h1>Let's get started</h1>
+      <NewExpense/>
       <Expenses />
     </div>
   );
