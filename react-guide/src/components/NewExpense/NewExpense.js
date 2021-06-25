@@ -1,5 +1,7 @@
 import "./NewExpense.css";
 import Expenseform from "./ExpenseForm";
+import {useState} from "react";
+
 const NewExpense = (props) => {
   const expensedatahandler = (enteredexpensedata) => {
     const expenseData = {
@@ -7,12 +9,23 @@ const NewExpense = (props) => {
       id: Math.random().toString(),
     };
     // console.log(expenseData);
-    props.onAddExpense(expenseData)
+    props.onAddExpense(expenseData);
+    setToggle(false)
   };
+
+  const [toggle, setToggle] = useState(false);
+  const startEditing=()=>{
+    setToggle(true)
+  }
+  
+  const stopEditing=()=>{
+   setToggle(false)
+  }
 
   return (
     <div className="new-expense">
-      <Expenseform ExpenseData={expensedatahandler} />
+      {!toggle && <button onClick={startEditing}>Add New Item</button>}
+      {toggle && <Expenseform ExpenseData={expensedatahandler} onEditing={stopEditing} />}
     </div>
   );
 };

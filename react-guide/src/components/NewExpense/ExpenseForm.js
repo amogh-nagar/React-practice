@@ -54,10 +54,13 @@ const Expenseform = (props) => {
     };
     // console.log(expenseData);
     setEnteredTitle("");
+
     setEnteredAmount("");
     setEnteredDate("");
-    props.ExpenseData(expenseData)//We are passing a pointer at expensedatahandler to ExpenseData
+    props.ExpenseData(expenseData); //We are passing a pointer at expensedatahandler to ExpenseData
   };
+
+  
 
   return (
     <form action="" onSubmit={submitHandler}>
@@ -92,6 +95,7 @@ const Expenseform = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={props.onEditing}>Cancel</button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
