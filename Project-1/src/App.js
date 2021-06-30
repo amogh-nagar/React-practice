@@ -7,15 +7,15 @@ function App() {
   const userlistdatahandler = (uname, uage) => {
     setuserslist((prevState) => [
       ...prevState,
-      {name: uname, age: uage, id: Math.floor(Math.random * 100).toString()},
+      {name: uname, age: uage, id: Math.random().toString()},
     ]);
   };
 
   return (
-    <div>
+    <>
       <AddUser onadduser={userlistdatahandler} />
       <UserList users={userslist} />
-    </div>
+    </>
   );
 }
 

@@ -6,7 +6,6 @@ import styles from "./CourseInput.module.css";
 
 //   margin: 0.5rem 0;
 
-
 // & label {
 //   font-weight: bold;
 //   display: block;
@@ -30,7 +29,6 @@ import styles from "./CourseInput.module.css";
 //   border-color: #8b005d;
 // }
 
-
 // `;
 
 const CourseInput = (props) => {
@@ -47,8 +45,8 @@ const CourseInput = (props) => {
     event.preventDefault();
     if (enteredValue.trim().length === 0) {
       setisvalid(false);
-     console.log('inside');
-     console.log(isvalid);
+      console.log("inside");
+      console.log(isvalid);
       return;
     }
     // console.log('inside');
@@ -58,7 +56,8 @@ const CourseInput = (props) => {
 
   return (
     <form onSubmit={formSubmitHandler}>
-      <div className={`${styles['form-control']} ${!isvalid && styles.invalid}`}
+      <div
+        className={`${styles["form-control"]} ${!isvalid && styles.invalid}`}
         invalid={!isvalid}
         // className={!isvalid && "invalid" }
       >
