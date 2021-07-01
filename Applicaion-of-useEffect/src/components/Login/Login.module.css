@@ -8,8 +8,8 @@
 .control {
   margin: 1rem 0;
   display: flex;
-  align-items: stretch;
   flex-direction: column;
+  align-items: stretch;
 }
 
 .control label,
@@ -47,10 +47,13 @@
   text-align: center;
 }
 
-@media (min-width: 768px) {
+.actions {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
   .control {
     align-items: center;
     flex-direction: row;
   }
-
 }
