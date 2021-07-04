@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import useFetch from "./hooks/use-fetch";
 import Tasks from "./components/Tasks/Tasks";
 import NewTask from "./components/NewTask/NewTask";
@@ -6,7 +6,7 @@ import NewTask from "./components/NewTask/NewTask";
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  const handledata = (tasksjson) => {
+  const handledata = useCallback((tasksjson) => {
     console.log("tasksjson: ", tasksjson);
     const loadedTasks = [];
 
@@ -15,17 +15,20 @@ function App() {
     }
 
     setTasks(loadedTasks);
-  };
-
-  const httpdata=useFetch({
-    url: "https://react-first-http-default-rtdb.firebaseio.com/tasks.json",
-    handledata,
   });
-  const {isLoading:isLoading,error:error,sendrequest:fetchTasks}=httpdata
+
+  const httpdata = useFetch(handledata);
+  const {
+    isLoading: isLoading,
+    error: error,
+    sendrequest: fetchTasks,
+  } = httpdata;
 
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    fetchTasks({
+      url: "https://react-first-http-default-rtdb.firebaseio.com/tasks.json",
+    });
+  }, [fetchTasks]);
 
   const taskAddHandler = (task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
