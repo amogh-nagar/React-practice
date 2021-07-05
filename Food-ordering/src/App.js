@@ -12,6 +12,7 @@ function App() {
     setcartisshown(false);
   };
   return (
+    <>
     <CartProvider>
       {cartisshown && <Cart hidecart={hidecardhandler} />}
 
@@ -20,6 +21,7 @@ function App() {
         <Meals />
       </main>
     </CartProvider>
+    </>
   );
 }
 
