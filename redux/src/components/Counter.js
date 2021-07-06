@@ -1,37 +1,41 @@
 import {useSelector, useDispatch, connect} from "react-redux"; //it allow us to automatically select a part of our state managed by store
 import {Component} from "react";
 import classes from "./Counter.module.css";
-
+import {counteractions} from "../store/index";
 const Counter = () => {
   const dispatch = useDispatch();
   const {counter, showcounter} = useSelector((state) => state);
 
-  // const incrementhandler = (value) => {
-  //   dispatch({type: "INCREMENT",value:value});
-  // };
+  const incrementhandler = (value) => {
+    dispatch(counteractions.increment());
+  };
 
   const increasehandler = (value) => {
-    dispatch({type: "INCREASE", value: value});
+    dispatch(counteractions.increase(value));//create an action objects where {type:SOME_UNIQUE_IDENTIFIER,payload:value}
   };
 
   const decrementhandler = () => {
-    dispatch({type: "DECREMENT"});
+    dispatch(counteractions.decrement());
   };
 
   const toggleCounterHandler = () => {
-    dispatch({type: "TOGGLE"});
+    dispatch(counteractions.togglecounter());
   };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
       {showcounter && <div className={classes.value}>{counter}</div>}
-      <div>
+      {/* <div>
         <button onClick={increasehandler.bind(null, 1)}>Increment</button>
         <button onClick={increasehandler.bind(null, 5)}>Increment by 5</button>
         <button onClick={decrementhandler}>Decrement</button>
+      </div> */}
+      <div>
+        <button onClick={incrementhandler}>Increment</button>
+        <button onClick={increasehandler.bind(null, 5)}>Increment by 5</button>
+        <button onClick={decrementhandler}>Decrement</button>
       </div>
-
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
     </main>
   );
