@@ -4,31 +4,40 @@ import classes from "./Counter.module.css";
 
 const Counter = () => {
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state.counter);
+  const {counter, showcounter} = useSelector((state) => state);
 
-  const incrementhandler = () => {
-    dispatch({type: "INCREMENT"});
+  // const incrementhandler = (value) => {
+  //   dispatch({type: "INCREMENT",value:value});
+  // };
+
+  const increasehandler = (value) => {
+    dispatch({type: "INCREASE", value: value});
   };
+
   const decrementhandler = () => {
     dispatch({type: "DECREMENT"});
   };
 
-  const toggleCounterHandler = () => {};
+  const toggleCounterHandler = () => {
+    dispatch({type: "TOGGLE"});
+  };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{counter}</div>
+      {showcounter && <div className={classes.value}>{counter}</div>}
       <div>
-        <button onClick={incrementhandler}>Increment</button>
+        <button onClick={increasehandler.bind(null, 1)}>Increment</button>
+        <button onClick={increasehandler.bind(null, 5)}>Increment by 5</button>
         <button onClick={decrementhandler}>Decrement</button>
       </div>
+
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
     </main>
   );
 };
 
-export default Counter
+export default Counter;
 
 // class Counter extends Component {
 //   incrementhandler() {
