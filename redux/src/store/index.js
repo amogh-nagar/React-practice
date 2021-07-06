@@ -1,32 +1,8 @@
 // import {createStore} from "redux";
-import {createSlice, configureStore} from "@reduxjs/toolkit";
-
+import {configureStore} from "@reduxjs/toolkit";
+import counterslicereducer from "./counter";
+import authslicereducer from "./auth";
 // const increment="INCREMENT"  one method
-
-const initialstate = {counter: 0, showcounter: true};
-
-const counterslice = createSlice({
-  name: "counter",
-  initialState: initialstate,
-  reducers: {
-    increment(state) {
-      state.counter++;
-    },
-    decrement(state) {
-      state.counter--;
-    },
-    increase(state, action) {
-        
-        // console.log(action.type)
-      state.counter += action.payload;
-    },
-    togglecounter(state) {
-      state.showcounter = !state.showcounter;
-    },
-  },
-});
-
-
 
 // const reducer = (state = initialstate, action) => {
 //   if (action.type === "INCREMENT") {
@@ -59,16 +35,7 @@ const counterslice = createSlice({
 // };
 
 const store = configureStore({
-  reducer: counterslice.reducer, //redux wants one main reducer function
+  reducer: {counter: counterslicereducer, auth: authslicereducer}, //redux wants one main reducer function
 });
-
-
-
-
-//will create a action method with a unique identifier same as the name of reducers
-// counterslice.actions.togglecounter()
-
-
-export const counteractions=counterslice.actions
 
 export default store;

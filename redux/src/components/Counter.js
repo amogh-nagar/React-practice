@@ -1,17 +1,17 @@
-import {useSelector, useDispatch, connect} from "react-redux"; //it allow us to automatically select a part of our state managed by store
-import {Component} from "react";
+import {useSelector, useDispatch} from "react-redux"; //it allow us to automatically select a part of our state managed by store
+// import {Component} from "react";
 import classes from "./Counter.module.css";
-import {counteractions} from "../store/index";
+import {counteractions} from "../store/counter";
 const Counter = () => {
   const dispatch = useDispatch();
-  const {counter, showcounter} = useSelector((state) => state);
+  const {counter, showcounter} = useSelector((state) => state.counter);
 
   const incrementhandler = (value) => {
     dispatch(counteractions.increment());
   };
 
   const increasehandler = (value) => {
-    dispatch(counteractions.increase(value));//create an action objects where {type:SOME_UNIQUE_IDENTIFIER,payload:value}
+    dispatch(counteractions.increase(value)); //create an action objects where {type:SOME_UNIQUE_IDENTIFIER,payload:value}
   };
 
   const decrementhandler = () => {
