@@ -37,9 +37,13 @@ export const sendcartdata = (cart) => {
           message: "Sent request successfully",
         })
       );
+
+      
       setTimeout(() => {
         dispatch(uisliceactions.resetnotification());
       }, 2000);
+
+
     } catch (err) {
       dispatch(
         uisliceactions.setnotification({
@@ -71,7 +75,7 @@ export const fetchcart = () => {
     // try {
     fetchdata()
       .then((data) => {
-        console.log("Insoide then");
+        // console.log("Insoide then");
         dispatch(
           cartsliceactions.replacecart({
             items: data ? data.items : [],
