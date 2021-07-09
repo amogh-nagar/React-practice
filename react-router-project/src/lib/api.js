@@ -56,3 +56,46 @@ export const addQuote = async (quotedata) => {
 
   return null;
 };
+
+export const addComment = async (reqdata) => {
+  const res = await fetch(`${FIREBASE_URL}/comments/${reqdata.quoteId}.json`, {
+    method: "POST",
+    body: JSON.stringify({text:reqdata.commentdata}),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+console.log(data);
+  if (!res.ok) {
+    throw new Error(data.message || "Could not add comment");
+  }
+
+  return {commentId: data.name};
+};
+
+export const getAllComments = async (quoteId) => {
+  const res = await fetch(`${FIREBASE_URL}/comments/${quoteId}.json`);
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Could not load comments");
+  }
+
+  const transformedcomments = [];
+
+  for (let key in data) {
+    const commentsobj = {
+      id: key,
+      ...data[key],
+    };
+
+    transformedcomments.push(commentsobj);
+  }
+
+
+
+  return transformedcomments;
+};
