@@ -7,12 +7,12 @@ const NewCommentForm = (props) => {
   const commentTextRef = useRef();
 
   const {sendRequest, error, status} = useHttp(addComment, false);
-
+  const {onAddComment} = props;
   useEffect(() => {
     if (status === "completed" && !error) {
-      props.onAddComment();
+      onAddComment();
     }
-  }, [status, error, props.onAddComment]);
+  }, [status, error, onAddComment]);
 
   const submitFormHandler = (event) => {
     event.preventDefault();

@@ -60,14 +60,14 @@ export const addQuote = async (quotedata) => {
 export const addComment = async (reqdata) => {
   const res = await fetch(`${FIREBASE_URL}/comments/${reqdata.quoteId}.json`, {
     method: "POST",
-    body: JSON.stringify({text:reqdata.commentdata}),
+    body: JSON.stringify({text: reqdata.commentdata}),
     headers: {
       "Content-Type": "application/json",
     },
   });
 
   const data = await res.json();
-console.log(data);
+  console.log(data);
   if (!res.ok) {
     throw new Error(data.message || "Could not add comment");
   }
@@ -94,8 +94,6 @@ export const getAllComments = async (quoteId) => {
 
     transformedcomments.push(commentsobj);
   }
-
-
 
   return transformedcomments;
 };
