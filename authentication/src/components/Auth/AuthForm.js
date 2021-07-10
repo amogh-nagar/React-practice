@@ -1,43 +1,52 @@
-import {useRef, useState} from "react";
-
+import {useRef, useState, useContext} from "react";
+import Authcontext from "../context/auth";
+import {useHistory} from "react-router-dom";
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
+  const history = useHistory();
   const [isLogin, setIsLogin] = useState(true);
   const emailref = useRef();
   const passwordref = useRef();
+
+  const authctx = useContext(Authcontext);
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-const [isloading,setisloading]=useState(false)
+  const [isloading, setisloading] = useState(false);
 
   const submithandler = (e) => {
     e.preventDefault();
 
     const enteredemail = emailref.current.value;
     const enteredpassword = passwordref.current.value;
-
+    let url;
     //Validate
     if (isLogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCSOlS9XYJ3JIHPyyVFgEUZ_7lH5DbB2_0";
     } else {
-      setisloading(true)
-      fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCSOlS9XYJ3JIHPyyVFgEUZ_7lH5DbB2_0",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredemail,
-            password: enteredpassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((res) => {
-        setisloading(false)
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCSOlS9XYJ3JIHPyyVFgEUZ_7lH5DbB2_0";
+    }
+    setisloading(true);
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredemail,
+        password: enteredpassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        setisloading(false);
         if (res.ok) {
+          return res.json();
         } else {
           return res.json().then((data) => {
             // console.log(data);
@@ -45,16 +54,27 @@ const [isloading,setisloading]=useState(false)
             if (data && data.error && data.error.message) {
               errMessage = data.error.message;
             }
-            alert(errMessage)
 
+            throw new Error(errMessage);
             //Password should be atleast 6 characters long
           });
           // throw new Error('Failed to send data')
         }
+      })
+      .then((data) => {
+        console.log(data);
+        console.log(new Date(new Date().getTime() + +data.expiresIn * 1000));
+        // const expirationTime = new Date(
+        //   new Date().getTime() + +data.expiresIn * 1000
+        // );
+        // authctx.login(data.idToken, expirationTime.toISOString());
+        console.log(Date.now());
+        authctx.login(data.idToken, Date.now() + +data.expiresIn * 1000);
+        history.replace("/");
+      })
+      .catch((err) => {
+        alert(err.message);
       });
-
-    
-    }
   };
 
   return (
@@ -70,10 +90,11 @@ const [isloading,setisloading]=useState(false)
           <input type="password" id="password" ref={passwordref} required />
         </div>
         <div className={classes.actions}>
-        {!isloading &&  <button>{isLogin ? "Login" : "Create Account"}</button>
-        } 
-        {isloading && <p>Loading!!</p>}
-         <button
+          {!isloading && (
+            <button>{isLogin ? "Login" : "Create Account"}</button>
+          )}
+          {isloading && <p>Loading!!</p>}
+          <button
             type="button"
             className={classes.toggle}
             onClick={switchAuthModeHandler}
